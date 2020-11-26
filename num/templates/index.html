@@ -10,6 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <style>
      .wordshow{
         
@@ -18,15 +19,16 @@
          margin-left: 30px;
      }
      .box{
-         widows: 400px;
-         height: 300px;
+         width: 600px;
+         height: 400px;
          margin-left: 300px;
          margin-top: 100px;
          background-color: aquamarine;
      }
      .bx2{
-        margin-left: 140px;
-         margin-top: 80px; 
+        margin-left: 70px;
+         margin-top: 1px; 
+         width:400px
      }
      .numtoword
      {
@@ -39,20 +41,26 @@
 <body>
 
 <div class="container">
-  <div class="row col-md-12">
-    <div class="box row col-md-6">
-    <!-- <form action='/result/' method="POST">
-      {% csrf_token %} -->
+  <div class="row col-md-12 box">
+    <div class=" row col-md-2">
+      <div class="row">
+      <button type="submit" class="btn playword" ><i class="fa fa-youtube-play" style="font-size:48px;color:blue"></i>Play</button>
+       </div>
       <form>
-        <div class="form-group bx2">
+
+        <div class="form-group bx2  ">
+         
+           
+         
           <label for="email">Enter number</label>
+         
           <input type="number" class="form-control" placeholder="Enter number" name="number" id="number" >
          
             <div class="errorTextBox" style="color: red;"></div>
             <div class="wordshow" ></div>
         </div>
       
-       
+        
         <button type="submit" class="btn btn-primary numtoword" >Submit</button>
         
       </form>
@@ -63,7 +71,8 @@
 
 
   <script>
-   
+   var numw;
+   var n;
     $('.numtoword').click(function(e){
         e.preventDefault();
       var n=$('#number').val()
@@ -85,7 +94,7 @@
                
             success: function(data){
             console.log(data.data);
-          
+            numw=data.data
             $('.wordshow').html(data.data)
           
             
@@ -95,6 +104,26 @@
       }
         setTimeout(function(){location.reload();}, 6000);
        });
+
+       $('.playword').click(function(e){
+         alert('kkk')
+        e.preventDefault();
+        $.ajax({
+            type:"POST",
+            url: "/speech/",
+            async:false,
+            data:{csrfmiddlewaretoken: window.CSRF_TOKEN, number:numw},
+               
+            success: function(data){
+            console.log(data.data);
+           
+          
+            
+            }
+
+        });
+       });
+
    
 
   </script>
@@ -103,3 +132,4 @@
 
 </body>
 </html>
+
