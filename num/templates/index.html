@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+ <style>
+     .wordshow{
+        
+         color:rgb(10, 0, 0);
+         font-size: 26px;
+         margin-left: 30px;
+     }
+     .box{
+         widows: 400px;
+         height: 300px;
+         margin-left: 300px;
+         margin-top: 100px;
+         background-color: aquamarine;
+     }
+     .bx2{
+        margin-left: 140px;
+         margin-top: 80px; 
+     }
+     .numtoword
+     {
+        margin-left: 200px;
+         margin-top: 20px; 
+     }
+    
+ </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row col-md-12">
+    <div class="box row col-md-6">
+    <!-- <form action='/result/' method="POST">
+      {% csrf_token %} -->
+      <form>
+        <div class="form-group bx2">
+          <label for="email">Enter number</label>
+          <input type="number" class="form-control" placeholder="Enter number" name="number" id="number" >
+         
+            <div class="errorTextBox" style="color: red;"></div>
+            <div class="wordshow" ></div>
+        </div>
+      
+       
+        <button type="submit" class="btn btn-primary numtoword" >Submit</button>
+        
+      </form>
+      </div>
+  </div>
+  </div>
+ 
+
+
+  <script>
+   
+    $('.numtoword').click(function(e){
+        e.preventDefault();
+      var n=$('#number').val()
+      console.log(n)
+       if (n < 0) {
+         $('.errorTextBox').html('make sure it is a +ve number')
+       console.log('-ve number')
+       }
+       else if (n != ~~n) // make sure there's no decimal part
+       {
+        $('.errorTextBox').html('make sure theres no decimal part')
+       }
+       else{
+        $.ajax({
+            type:"POST",
+            url: "/result/",
+            async:false,
+            data:{csrfmiddlewaretoken: window.CSRF_TOKEN, number:n},
+               
+            success: function(data){
+            console.log(data.data);
+          
+            $('.wordshow').html(data.data)
+          
+            
+            }
+
+        });
+      }
+        setTimeout(function(){location.reload();}, 6000);
+       });
+   
+
+  </script>
+
+
+
+</body>
+</html>
