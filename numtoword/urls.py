@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/',views.Index),
     path('result/',views.Response),
+    path('speech/',views.Speech),
 ]
