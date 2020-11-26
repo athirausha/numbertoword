@@ -21,17 +21,27 @@ def Response(request):
             p = inflect.engine()
             num=p.number_to_words(number)
             num=num.capitalize()           
-            print(num)
-            engine = pyttsx3.init()
-            engine.say(num)
-            engine.runAndWait()
-            engine.stop()
-         
+       
         return JsonResponse ({'data':num})
         
     except Exception as e:
         print(e)
 
+def Speech(request):
+    try:
+        if request.method == "POST":
+            num=request.POST['number']
+            p = inflect.engine()
+            
+            engine = pyttsx3.init()
+            engine.say(num)
+            engine.runAndWait()
+            engine.stop()
+         
+        return JsonResponse ({'data':'success'})
+        
+    except Exception as e:
+        print(e)
 
 
 
